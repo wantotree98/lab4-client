@@ -3,12 +3,14 @@
 #include<arpa/inet.h>  //inet_addr
 #include<string.h>
 #include<unistd.h>
-
+#include<stdlib.h>
+#include<netdb.h>
 
 int main(int argc, char*argv[]){
 
+
 int socket_desc;
-char* server_reply;
+char*server_reply;
 struct sockaddr_in server;
 char*message;
 
@@ -20,9 +22,9 @@ printf("Socket could not be created");
 
 }
 
-server.sin_addr.s_addr = inet_addr("192.168.10.10"); //server ip address
+server.sin_addr.s_addr = inet_addr("192.168.43.219"); //server ip address
 server.sin_family = AF_INET;
-server.sin_port = htons (22);
+server.sin_port = htons(8888);
 
 //connect to remote server
 if(connect(socket_desc, (struct sockaddr*)&server, sizeof(server))<0){
@@ -43,15 +45,15 @@ return 1;
 puts("Data send \n");
 //receive a reply from the server
 
-if(recv(socket_desc, server_reply,2000,0)<0){
-puts("Receive Failed \n");
-
-return 1;
+if(recv(socket_desc,server_reply,2000,0) < 0){
+puts("Receicved Failed \n");
 
 }
-close(socket_desc);
-puts("Data received \n");
 
+puts("Reply  received \n");
+puts(server_reply);
+
+//close(socket_desc);
 
 return 0;
 }
